@@ -18,6 +18,11 @@ namespace Employee_Payroll_MVCApplication.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Able to add multiple employee in to database.
+        /// </summary>
+        /// <param name="employee">The employee.</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult RegisterEmployee(RegisterEmpRequestModel employee)
         {
