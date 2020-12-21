@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Employee_Payroll_MVCApplication.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         public ApplicationDbContext db = new ApplicationDbContext();
@@ -17,62 +18,20 @@ namespace Employee_Payroll_MVCApplication.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult RegisterEmployee(RegisterEmpRequestModel employee)
-        {
-            bool result = false;
-            if (ModelState.IsValid)
-            {
-                result = this.RegisterEmployeeService(employee);
-            }
-            ModelState.Clear();
-
-            if (result == true)
-            {
-                return RedirectToAction("EmployeeList");
-            }
-            return View("Register", employee);
-        }
+        /// <summary>
+        /// Retrieve data from the dat base
+        /// </summary>
+        /// <returns></returns>
         public ActionResult EmployeeList()
         {
             List<EmployeeDetailModel> list = GetAllEmployee();
             return View(list);
         }
 
-        public bool RegisterEmployeeService(RegisterEmpRequestModel employee)
-        {
-            try
-            {
-                Employee validEmployee = db.Employees.Where(x => x.Name == employee.Name && x.Gender == employee.Gender).FirstOrDefault();
-                if (validEmployee == null)
-                {
-                    int departmentId = db.Departments.Where(x => x.DeptName == employee.Department).Select(x => x.DeptId).FirstOrDefault();
-                    Employee newEmployee = new Employee()
-                    {
-                        Name = employee.Name,
-                        Gender = employee.Gender,
-                        DepartmentId = departmentId,
-                        SalaryId = Convert.ToInt32(employee.SalaryId),
-                        StartDate = employee.StartDate,
-                        Description = employee.Description
-                    };
-                    Employee returnData = db.Employees.Add(newEmployee);
-                }
-                int result = db.SaveChanges();
-                if (result > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+        /// <summary>
+        /// Get all Employees 
+        /// </summary>
+        /// <returns></returns>
         public List<EmployeeDetailModel> GetAllEmployee()
         {
             try
