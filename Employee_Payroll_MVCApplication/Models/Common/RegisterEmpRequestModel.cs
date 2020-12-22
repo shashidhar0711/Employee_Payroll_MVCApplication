@@ -24,6 +24,7 @@ namespace Employee_Payroll_MVCApplication.Models.Common
 
         [Required(ErrorMessage = "Required")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
         public string Description { get; set; }
