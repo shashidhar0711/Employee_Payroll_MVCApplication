@@ -134,7 +134,7 @@ namespace Employee_Payroll_MVCApplication.Controllers
                 Name = item.Name,
                 Gender = item.Gender,
                 Department = item.Department,
-                SalaryId = item.SalaryId,
+                SalaryId = item.SalaryId.ToString(),
                 StartDate = item.StartDate,
                 Description = item.Description
             };
