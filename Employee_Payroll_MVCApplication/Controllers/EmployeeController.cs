@@ -12,13 +12,19 @@ namespace Employee_Payroll_MVCApplication.Controllers
     public class EmployeeController : Controller
     {
         public ApplicationDbContext db = new ApplicationDbContext();
-        // GET: Employee
+
+        /// <summary>
+        /// UC => 1
+        /// GET: Employee
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
         /// <summary>
+        /// UC => 4 and 5
         /// Able to add multiple employee in to database.
         /// </summary>
         /// <param name="employee">The employee.</param>
@@ -41,6 +47,7 @@ namespace Employee_Payroll_MVCApplication.Controllers
         }
 
         /// <summary>
+        /// UC => 2 and 3
         /// Retrieve data from the dat base
         /// </summary>
         /// <returns></returns>
@@ -121,7 +128,9 @@ namespace Employee_Payroll_MVCApplication.Controllers
                 throw e;
             }
         }
+
         /// <summary>
+        /// UC => 6
         /// Edits the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
@@ -159,6 +168,12 @@ namespace Employee_Payroll_MVCApplication.Controllers
                 return View("Error");
             }
         }
+
+        /// <summary>
+        /// Edits the employee service.
+        /// </summary>
+        /// <param name="employee">The employee.</param>
+        /// <returns></returns>
         public bool EditEmployeeService(RegisterEmpRequestModel employee)
         {
             try
@@ -189,5 +204,55 @@ namespace Employee_Payroll_MVCApplication.Controllers
             }
         }
 
+        /// <summary>
+        /// UC => 7
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public ActionResult Delete(int id)
+        {
+            bool result = DeleteEmployee(id);
+            if (result == true)
+            {
+                List<EmployeeDetailModel> list = GetAllEmployee();
+                return View("EmployeeList", list);
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        /// <summary>
+        /// Deletes the employee.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public bool DeleteEmployee(int id)
+        {
+            try
+            {
+                Employee employee = db.Employees.Find(id);
+                if (employee == null)
+                {
+                    return false;
+                }
+                db.Employees.Remove(employee);
+                int result = db.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
