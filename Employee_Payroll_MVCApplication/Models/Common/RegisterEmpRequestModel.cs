@@ -20,10 +20,11 @@ namespace Employee_Payroll_MVCApplication.Models.Common
         public string Department { get; set; }
         [Required(ErrorMessage = "Required")]
 
-        public int SalaryId { get; set; }
+        public string SalaryId { get; set; }
 
         [Required(ErrorMessage = "Required")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
         public string Description { get; set; }
